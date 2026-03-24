@@ -370,18 +370,26 @@ export default function Home() {
             aria-label="プレミアムプランのご案内"
           >
             <h2 className="text-amber-300 font-bold text-base mb-2">
-              もっと願いを叶えたいなら
+              AIが毎日3つのラッキーアドバイスを生成
             </h2>
-            <p className="text-gray-400 text-sm mb-4">
-              プレミアムプランでは、より深い分析と無制限の願い事に対応します。
+            <p className="text-gray-400 text-sm mb-2">
+              運気を上げる具体的な行動が分かります。毎日続けることで、願いが現実に変わっていく。
             </p>
-            <div
-              className="rounded-2xl font-black text-lg py-4 px-8 text-center inline-block"
+            <p className="text-amber-400/80 text-xs mb-4 font-semibold">
+              プレミアム版では毎日6つのアドバイス + 詳細運勢レポートをお届け
+            </p>
+            <button
+              type="button"
+              className="rounded-2xl font-black text-lg py-4 px-8 text-center inline-block transition-opacity hover:opacity-90 active:scale-95 min-h-[44px]"
               style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#1a1208' }}
-              aria-label="プレミアムプランの詳細"
+              aria-label="プレミアムプランに申し込む（月額480円）"
+              onClick={() => {
+                // 決済連携後にここをリンク先に変更してください
+                alert("プレミアムプランは準備中です。近日公開予定！");
+              }}
             >
               プレミアムを始める → ¥480/月
-            </div>
+            </button>
             <p className="text-gray-500 text-xs mt-3">初月無料・いつでも解約可能</p>
           </section>
         )}
