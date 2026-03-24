@@ -1,0 +1,28 @@
+# ================================================================
+#  打出の小槌 - YouTube Engine 依存ライブラリ
+#  インストール: pip install -r requirements_youtube.txt
+# ================================================================
+
+# ── 動画・画像処理 ─────────────────────────────────────────────
+moviepy==1.0.3
+imageio==2.31.6
+imageio-ffmpeg==0.4.9
+pillow>=10.0.0
+numpy>=1.24.0
+
+# ── 設定ファイル ──────────────────────────────────────────────
+pyyaml>=6.0.1
+
+# ── HTTP通信（Ollama API呼び出し） ────────────────────────────
+requests>=2.31.0
+
+# ── Phase 2: TTS（必要になったら有効化） ─────────────────────
+# TTS>=0.22.0          # XTTS-v2（pip install TTS）
+# style-bert-vits2     # StyleBERT-VITS2
+
+# ── Phase 2: Stable Diffusion（必要になったら有効化） ─────────
+# diffusers>=0.21.0
+# transformers>=4.30.0
+# accelerate>=0.21.0
+# torch>=2.0.0         # CUDA対応版は別途インストール
+#   → pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118

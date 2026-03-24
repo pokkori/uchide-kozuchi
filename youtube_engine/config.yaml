@@ -1,0 +1,71 @@
+# ================================================================
+#  打出の小槌 - YouTube自動生成エンジン 設定ファイル
+#  全てのパス・パラメータはここで管理する
+# ================================================================
+
+# ── Ollama (テキスト生成) ─────────────────────────────────────
+ollama:
+  host: "http://localhost:11434"
+  model: "llama3:8b"
+  keep_alive: 0          # 推論後即座にVRAMを解放（RTX 3070 VRAM節約）
+  timeout: 180
+
+# ── 動画設定 ──────────────────────────────────────────────────
+video:
+  width: 1080
+  height: 1920           # 9:16 縦型（YouTubeショート）
+  fps: 30
+  test_duration: 10      # テスト用動画の秒数
+  full_duration: 60      # 本番用動画の秒数
+  codec: "libx264"
+  output_dir: "output/videos"
+
+# ── 音声設定 ──────────────────────────────────────────────────
+audio:
+  sample_rate: 44100
+  channels: 1
+  temp_dir: "output/temp"
+
+# ── TTS設定（Phase 2 で有効化） ───────────────────────────────
+tts:
+  enabled: false         # true にすると XTTS-v2 を使用
+  engine: "xtts_v2"      # xtts_v2 / style_bert_vits2
+  model_path: "models/xtts_v2"
+  language: "ja"
+  speaker_wav: "assets/speaker_sample.wav"
+  # 推論後にVRAMを解放するため、Ollamaと同時起動しない
+
+# ── Stable Diffusion設定（Phase 2 で有効化） ─────────────────
+stable_diffusion:
+  enabled: false         # true にすると Automatic1111 API を使用
+  api_url: "http://localhost:7860"
+  width: 1080
+  height: 1920
+  steps: 20
+  cfg_scale: 7
+  sampler: "DPM++ 2M Karras"
+  # SD と TTS と Ollama は絶対に同時起動しない（VRAM 8GB制約）
+
+# ── 字幕設定 ──────────────────────────────────────────────────
+subtitle:
+  font_size: 52
+  font_color: [255, 255, 255]          # RGB 白
+  outline_color: [0, 0, 0]             # RGB 黒
+  outline_width: 3
+  background_color: [0, 0, 0, 160]     # RGBA 半透明黒
+  padding: 20
+  max_chars_per_line: 20               # 1行あたりの最大文字数
+  position_y_ratio: 0.78               # 画面下部78%の位置
+
+# ── コンテンツ設定 ─────────────────────────────────────────────
+content:
+  genre: "驚きの雑学"
+  style: "面白い・テンポよく"
+  script_max_chars: 300
+
+# ── デザイン設定（ダミー背景用） ────────────────────────────
+design:
+  bg_color_top: [15, 15, 40]           # 背景グラデーション上
+  bg_color_bottom: [40, 10, 60]        # 背景グラデーション下
+  accent_color: [120, 80, 255]         # アクセント色（紫系）
+  title_font_size: 64

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打出の小槌 Viewer</title>
+    <style>
+        :root {
+            --bg:          #f3f4f6;
+            --card:        #ffffff;
+            --text:        #1f2937;
+            --sub:         #4b5563;
+            --accent:      #3b82f6;
+            --accent-h:    #2563eb;
+            --border:      #e5e7eb;
+            --green:       #10b981;
+            --yellow:      #f59e0b;
+            --red:         #ef4444;
+            --tag-file:    #6366f1;
+            --tag-twitter: #0ea5e9;
+            --tag-wp:      #22c55e;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN',
+                         'Hiragino Sans', Meiryo, sans-serif;
+            background: var(--bg); color: var(--text);
+            line-height: 1.6; margin: 0; padding: 0;
+        }
+        .container { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; }
+        h1 { text-align: center; font-size: 1.8rem; margin-bottom: 2rem; }
+
+        /* ── カード ── */
+        .card {
+            background: var(--card); border-radius: 12px;
+            padding: 1.5rem; margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1);
+            transition: transform .2s;
+        }
+        .card:hover { transform: translateY(-2px); }
+
+        /* ── ヘッダー行 ── */
+        .card-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: .75rem;
+        }
+        .source-title {
+            font-size: 1rem; font-weight: bold;
+            text-decoration: none; color: var(--sub);
+            flex: 1; margin-right: 1rem;
+        }
+        .source-title:hover { color: var(--accent); }
+        .score-badge {
+            font-weight: bold; padding: .25rem .75rem;
+            border-radius: 9999px; font-size: 1rem; white-space: nowrap;
+        }
+        .score-high { background:#d1fae5; color:var(--green); }
+        .score-mid  { background:#fef3c7; color:var(--yellow); }
+        .score-low  { background:#fee2e2; color:var(--red); }
+
+        /* ── 記事タイトル ── */
+        .article-title {
+            font-size: 1.2rem; font-weight: bold;
+            margin: .5rem 0 .75rem;
+        }
+
+        /* ── セクション見出し ── */
+        .section-label {
+            font-size: .75rem; font-weight: bold; letter-spacing: .05em;
+            text-transform: uppercase; color: #9ca3af;
+            margin: .75rem 0 .25rem;
+        }
+
+        /* ── テキストボックス ── */
+        .text-box {
+            background: #f8fafc; border: 1px solid var(--border);
+            border-radius: 8px; padding: .85rem;
+            color: var(--sub); white-space: pre-wrap;
+            font-size: .9rem; position: relative;
+        }
+        .text-box.tweet { font-size: .95rem; font-style: italic; }
+
+        /* ── 折りたたみ記事本文 ── */
+        details summary {
+            cursor: pointer; font-size: .85rem; color: var(--accent);
+            font-weight: bold; list-style: none; margin-top: .25rem;
+        }
+        details summary::-webkit-details-marker { display: none; }
+        details[open] summary { color: var(--accent-h); }
+
+        /* ── 配信先タグ ── */
+        .platforms { display: flex; gap: .4rem; flex-wrap: wrap; margin: .5rem 0; }
+        .platform-tag {
+            font-size: .72rem; font-weight: bold; padding: .15rem .6rem;
+            border-radius: 9999px; color: #fff;
+        }
+        .pt-file    { background: var(--tag-file); }
+        .pt-twitter { background: var(--tag-twitter); }
+        .pt-wordpress { background: var(--tag-wp); }
+
+        /* ── フッター ── */
+        .meta {
+            font-size: .8rem; color: #9ca3af;
+            display: flex; justify-content: space-between;
+            align-items: center; margin-top: .75rem;
+        }
+        .btn-row { display: flex; gap: .5rem; }
+        .copy-btn {
+            background: var(--accent); color: #fff; border: none;
+            padding: .45rem .9rem; border-radius: 6px;
+            cursor: pointer; font-weight: bold; font-size: .8rem;
+            transition: background .2s;
+        }
+        .copy-btn:hover { background: var(--accent-h); }
+        .copy-btn.copied { background: var(--green); }
+
+        /* ── 空状態 ── */
+        .empty { text-align: center; padding: 3rem; color: var(--sub); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>打出の小槌 Viewer</h1>
+
+    {% if contents %}
+    {% for c in contents %}
+    <div class="card">
+
+        <!-- 元記事リンク + スコアバッジ -->
+        <div class="card-header">
+            <a href="{{ c.url }}" target="_blank" class="source-title">
+                元記事: {{ c.title }}
+            </a>
+            <span class="score-badge
+                {% if c.score >= 80 %}score-high
+                {% elif c.score >= 50 %}score-mid
+                {% else %}score-low{% endif %}">
+                スコア: {{ c.score }}
+            </span>
+        </div>
+
+        <!-- 生成記事タイトル -->
+        {% if c.article_title %}
+        <div class="article-title">{{ c.article_title }}</div>
+        {% endif %}
+
+        <!-- 配信先プラットフォームタグ -->
+        {% if c.published_platforms %}
+        <div class="platforms">
+            {% for pt in c.published_platforms.split(',') %}
+            {% if pt == 'file' %}
+            <span class="platform-tag pt-file">FILE</span>
+            {% elif pt == 'twitter' %}
+            <span class="platform-tag pt-twitter">Twitter/X</span>
+            {% elif pt == 'wordpress' %}
+            <span class="platform-tag pt-wordpress">WordPress</span>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Twitter 投稿文 -->
+        {% if c.tweet_text %}
+        <div class="section-label">Twitter 投稿文</div>
+        <div class="text-box tweet" id="tweet-{{ c.id }}">{{ c.tweet_text }}</div>
+        {% endif %}
+
+        <!-- AI 要約（SNS用コピー） -->
+        <div class="section-label">AI 要約</div>
+        <div class="text-box" id="summary-{{ c.id }}">{{ c.summary }}
+
+元記事: {{ c.url }}</div>
+
+        <!-- 記事本文（折りたたみ） -->
+        {% if c.article_body %}
+        <details>
+            <summary>記事本文を表示する</summary>
+            <div class="section-label" style="margin-top:.75rem;">記事本文</div>
+            <div class="text-box" id="article-{{ c.id }}">{{ c.article_body }}</div>
+        </details>
+        {% endif %}
+
+        <!-- フッター -->
+        <div class="meta">
+            <span>{{ c.created_at }}</span>
+            <div class="btn-row">
+                {% if c.tweet_text %}
+                <button class="copy-btn"
+                        onclick="copyText('tweet-{{ c.id }}', this)">
+                    Tweet コピー
+                </button>
+                {% endif %}
+                <button class="copy-btn"
+                        onclick="copyText('summary-{{ c.id }}', this)">
+                    SNS 要約コピー
+                </button>
+                {% if c.article_body %}
+                <button class="copy-btn"
+                        onclick="copyText('article-{{ c.id }}', this)">
+                    記事本文コピー
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="card empty">
+        <h2>データがありません</h2>
+        <p>main.py を起動してしばらくお待ちください。</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function copyText(id, btn) {
+    const el = document.getElementById(id);
+    navigator.clipboard.writeText(el.innerText || el.textContent).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = 'コピー完了!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerText = orig; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => alert('コピーに失敗しました。'));
+}
+</script>
+</body>
+</html>

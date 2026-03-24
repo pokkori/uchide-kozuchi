@@ -363,6 +363,29 @@ export default function Home() {
           </section>
         )}
 
+        {/* Premium CTA */}
+        {!steps && !isLoading && (
+          <section
+            className="glass-cta p-6 mb-6 text-center"
+            aria-label="プレミアムプランのご案内"
+          >
+            <h2 className="text-amber-300 font-bold text-base mb-2">
+              もっと願いを叶えたいなら
+            </h2>
+            <p className="text-gray-400 text-sm mb-4">
+              プレミアムプランでは、より深い分析と無制限の願い事に対応します。
+            </p>
+            <div
+              className="rounded-2xl font-black text-lg py-4 px-8 text-center inline-block"
+              style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#1a1208' }}
+              aria-label="プレミアムプランの詳細"
+            >
+              プレミアムを始める → ¥480/月
+            </div>
+            <p className="text-gray-500 text-xs mt-3">初月無料・いつでも解約可能</p>
+          </section>
+        )}
+
         {/* Footer */}
         <footer className="text-center text-xs text-gray-500 mt-8 space-y-2">
           <nav aria-label="フッターナビゲーション">
