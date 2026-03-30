@@ -97,7 +97,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "#1a1208" }}>
+    <main className="min-h-screen relative overflow-hidden" style={{ background: "radial-gradient(ellipse at 20% 50%, rgba(245,158,11,0.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(217,119,6,0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(252,211,77,0.06) 0%, transparent 50%), #0F0F1A" }}>
       {/* Background gradient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div
@@ -145,7 +145,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-4xl font-bold mb-3">
-            <span className="text-gold-shimmer">打出の小槌AI</span>
+            <span style={{ background: "linear-gradient(135deg, #fcd34d 0%, #f59e0b 50%, #d97706 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 20px rgba(245,158,11,0.3))" }}>打出の小槌AI</span>
           </h1>
           <p className="text-gray-300 text-lg">
             願い事を入力すると、AIが実現への5つのステップを提案します
@@ -217,12 +217,13 @@ export default function Home() {
             <button
               type="submit"
               disabled={isLoading || !wish.trim()}
-              className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed gold-glow"
+              className="w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px]"
               style={{
                 background: isLoading
                   ? "rgba(245,158,11,0.5)"
                   : "linear-gradient(135deg, #f59e0b, #d97706)",
                 color: "#1a1208",
+                boxShadow: isLoading ? "none" : "0 0 25px rgba(245,158,11,0.35), 0 4px 15px rgba(0,0,0,0.3)",
               }}
               aria-label={isLoading ? "願い事を叶えています..." : "願い事を叶える"}
               aria-busy={isLoading}
