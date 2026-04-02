@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { haptics } from "@/utils/haptics";
 import { updateStreak, loadStreak, getStreakMilestoneMessage, StreakData } from "@/lib/streak";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
     setSteps("");
     setIsComplete(false);
     setCurrentWish(wish.trim());
+    haptics.tap();
     setIsHammerSwinging(true);
     setTimeout(() => setIsHammerSwinging(false), 1800);
 
@@ -60,8 +62,10 @@ export default function Home() {
           stepsRef.current.scrollTop = stepsRef.current.scrollHeight;
         }
       }
+      haptics.success();
       setIsComplete(true);
     } catch {
+      haptics.error();
       setSteps("エラーが発生しました。しばらくしてから再度お試しください。");
       setIsComplete(true);
     } finally {
