@@ -10,7 +10,7 @@ const legalItems = [
   { label: "販売事業者", value: "ポッコリラボ" },
   { label: "運営責任者", value: "非公開（問い合わせ窓口からご連絡ください）" },
   { label: "所在地", value: "非公開（問い合わせ窓口からご連絡ください）" },
-  { label: "電話番号", value: "非公開（お問い合わせいただいた場合は遅滞なく開示いたします）" },
+  { label: "電話番号", value: "090-6093-5290" },
   {
     label: "連絡先",
     value: "X（旧Twitter）: @levona_design",
